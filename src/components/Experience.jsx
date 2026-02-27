@@ -59,18 +59,6 @@ const EXPERIENCE = [
       "Applied AI-based molecular dynamics simulations to investigate protein flexibility, informing drug design.",
     ],
   },
-  {
-    company: "University of Maryland",
-    role: "Resident Assistant",
-    period: "May 2023 – Dec 2025",
-    location: "College Park, MD",
-    type: "part-time",
-    tags: ["teamwork", "leadership", "organization"],
-    bullets: [
-      "Student leader in charge of 40-50 undergraduate students.",
-      "Managed the floor, established relationships, held events, peformed duty-related tasks.",
-    ],
-  },
 ];
 
 const EDUCATION = {
@@ -91,9 +79,10 @@ const SKILLS = [
 
 const TYPE_COLORS = {
   "full-time": { bg: "#e8f5e8", color: "#2d7a2d" },
-  internship:  { bg: "#e8f0f8", color: "#2d5a8a" },
-  research:    { bg: "#f5ede8", color: "#8a4a2d" },
+  "internship": { bg: "#e8f0f8", color: "#2d5a8a" },
+  "research":   { bg: "#f5ede8", color: "#8a4a2d" },
 };
+const DEFAULT_TYPE_COLOR = { bg: "#eceae5", color: "#5a5650" };
 
 function useInView(ref, threshold = 0.12) {
   const [visible, setVisible] = useState(false);
@@ -109,7 +98,7 @@ function Card({ job, index }) {
   const [open, setOpen] = useState(index === 0);
   const ref = useRef(null);
   const visible = useInView(ref);
-  const tc = TYPE_COLORS[job.type];
+  const tc = TYPE_COLORS[job.type] ?? DEFAULT_TYPE_COLOR;
 
   return (
     <div
