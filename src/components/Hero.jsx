@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useRef } from "react";
 
 const COMMANDS = {
@@ -9,33 +11,26 @@ const COMMANDS = {
   movies     → evan's favorite movies
   contact    → how to reach evan
   clear      → clear terminal`,
-
   about: `evan liu — software engineer.
-cs @ university of maryland, class of fall '25.
+cs @ university of maryland, class of '25.
 builds for the web, digs into ML, and finds the elegant solution.
 creative · hardworking · adaptive.`,
-
   skills: `languages   → python, javascript, typescript, java, c
-web         → react, next.js, node.js, tailwind
-ml / data   → pytorch, scikit-learn, pandas, numpy, mongodb
-tools       → git, docker, linux, kubernetes`,
-
+web         → react, next.js, node.js, fastapi
+ml / data   → pytorch, tensorflow, scikit-learn, cuda
+devops      → aws, docker, kubernetes, gitlab ci/cd`,
   education: `university of maryland, college park
 b.s. computer science — 2025
-go terps 🐢`,
-
+gpa: 3.7 · gemstone honors program 🏅`,
   quote: `"every second counts."
 — the bear`,
-
-  contact: `github    → github.com/eliu76
-linkedin  → linkedin.com/in/evan-liu-767429250
-email     → reach out via linkedin`,
-
   movies: `interstellar - christopher nolan
   parasite - bong joon ho
   the dark knight - christopher nolan
-  dune part two - denis villanueve`,
-
+dune part two - denis villanueve`,
+  contact: `github    → github.com/eliu76
+linkedin  → linkedin.com/in/evan-liu-767429250
+email     → evanliu76@gmail.com`,
   clear: "__CLEAR__",
 };
 
@@ -59,11 +54,8 @@ export default function Hero() {
   const termBottomRef = useRef(null);
   const inputRef = useRef(null);
 
-  useEffect(() => {
-    setTimeout(() => setMounted(true), 100);
-  }, []);
+  useEffect(() => { setTimeout(() => setMounted(true), 100); }, []);
 
-  // Typewriter effect
   useEffect(() => {
     const current = TAGLINES[taglineIndex];
     let timeout;
@@ -73,7 +65,7 @@ export default function Hero() {
       timeout = setTimeout(() => setIsDeleting(true), 1800);
     } else if (isDeleting && displayed.length > 0) {
       timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length - 1)), 40);
-    } else if (isDeleting && displayed.length === 0) {
+    } else {
       setIsDeleting(false);
       setTaglineIndex((i) => (i + 1) % TAGLINES.length);
     }
@@ -89,9 +81,7 @@ export default function Hero() {
     const raw = termInput.trim().toLowerCase();
     setTermInput("");
     if (!raw) return;
-
     const newHistory = [...termHistory, { type: "input", text: `$ ${raw}` }];
-
     if (raw in COMMANDS) {
       const result = COMMANDS[raw];
       if (result === "__CLEAR__") {
@@ -105,423 +95,190 @@ export default function Hero() {
     setTermHistory(newHistory);
   };
 
-  const navLinks = [
-    { label: "experience", href: "#experience" },
-    { label: "projects", href: "#projects" },
-    { label: "contact", href: "#contact" },
-  ];
-
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap');
-
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        :root {
-          --bg: #f5f2ee;
-          --bg2: #eceae5;
-          --fg: #1a1814;
-          --fg2: #5a5650;
-          --accent: #12c1d8ff;
-          --accent2: #e8d5c4;
-          --border: #d8d4ce;
-          --mono: 'DM Mono', monospace;
-          --serif: 'Playfair Display', serif;
-          --sans: 'DM Sans', sans-serif;
-        }
-
-        body { background: var(--bg); color: var(--fg); font-family: var(--sans); }
-
-        .portfolio-root {
-          min-height: 100vh;
-          background: var(--bg);
-        }
-
-        /* NAV */
-        .nav {
-          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-          display: flex; align-items: center; justify-content: space-between;
-          padding: 1.25rem 3rem;
-          background: rgba(245,242,238,0.85);
-          backdrop-filter: blur(12px);
-          border-bottom: 1px solid var(--border);
-          opacity: 0; transform: translateY(-8px);
-          transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .nav.visible { opacity: 1; transform: translateY(0); }
-
-        .nav-logo {
-          font-family: var(--serif);
-          font-size: 1.1rem;
-          color: var(--fg);
-          text-decoration: none;
-          letter-spacing: -0.01em;
-        }
-        .nav-logo span { color: var(--accent); font-style: italic; }
-
-        .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a {
-          font-family: var(--mono);
-          font-size: 0.78rem;
-          color: var(--fg2);
-          text-decoration: none;
-          letter-spacing: 0.05em;
-          transition: color 0.2s;
-        }
-        .nav-links a:hover { color: var(--accent); }
-
-        .nav-socials { display: flex; gap: 1rem; }
-        .nav-socials a {
-          font-family: var(--mono);
-          font-size: 0.72rem;
-          color: var(--fg2);
-          text-decoration: none;
-          border: 1px solid var(--border);
-          padding: 0.3rem 0.7rem;
-          border-radius: 2px;
-          transition: all 0.2s;
-        }
-        .nav-socials a:hover { color: var(--accent); border-color: var(--accent); }
-
-        /* HERO */
         .hero {
           min-height: 100vh;
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 0;
-          padding-top: 80px;
+          padding-top: 64px;
         }
-
         .hero-left {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding: 4rem 3rem 4rem 3rem;
+          display: flex; flex-direction: column; justify-content: center;
+          padding: 4rem 3rem;
           border-right: 1px solid var(--border);
         }
-
         .hero-eyebrow {
-          font-family: var(--mono);
-          font-size: 0.72rem;
-          color: var(--accent);
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          margin-bottom: 1.5rem;
+          font-family: var(--mono); font-size: 0.72rem; color: var(--accent);
+          letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.5rem;
           opacity: 0; transform: translateY(12px);
           transition: opacity 0.5s 0.2s ease, transform 0.5s 0.2s ease;
         }
-        .hero-eyebrow.visible { opacity: 1; transform: translateY(0); }
-
+        .hero-eyebrow.vis { opacity: 1; transform: translateY(0); }
         .hero-name {
           font-family: var(--serif);
           font-size: clamp(3.5rem, 7vw, 6rem);
-          line-height: 0.95;
-          letter-spacing: -0.02em;
-          color: var(--fg);
-          margin-bottom: 0.2rem;
+          line-height: 0.95; letter-spacing: -0.02em; color: var(--fg);
           opacity: 0; transform: translateY(16px);
           transition: opacity 0.6s 0.35s ease, transform 0.6s 0.35s ease;
         }
-        .hero-name.visible { opacity: 1; transform: translateY(0); }
+        .hero-name.vis { opacity: 1; transform: translateY(0); }
         .hero-name em { color: var(--accent); font-style: italic; }
-
         .hero-tagline {
-          font-family: var(--mono);
-          font-size: 1rem;
-          color: var(--fg2);
-          margin: 1.5rem 0 2.5rem;
-          min-height: 1.5rem;
-          opacity: 0;
-          transition: opacity 0.5s 0.55s ease;
+          font-family: var(--mono); font-size: 1rem; color: var(--fg2);
+          margin: 1.5rem 0 2.5rem; min-height: 1.5rem;
+          opacity: 0; transition: opacity 0.5s 0.55s ease;
         }
-        .hero-tagline.visible { opacity: 1; }
+        .hero-tagline.vis { opacity: 1; }
         .cursor {
-          display: inline-block;
-          width: 2px; height: 1em;
-          background: var(--accent);
-          margin-left: 2px;
-          vertical-align: text-bottom;
+          display: inline-block; width: 2px; height: 1em;
+          background: var(--accent); margin-left: 2px; vertical-align: text-bottom;
           animation: blink 1s steps(1) infinite;
         }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-
         .hero-bio {
-          font-size: 1rem;
-          line-height: 1.7;
-          color: var(--fg2);
-          max-width: 420px;
-          margin-bottom: 3rem;
+          font-size: 1rem; line-height: 1.7; color: var(--fg2);
+          max-width: 420px; margin-bottom: 3rem;
           opacity: 0; transform: translateY(12px);
           transition: opacity 0.5s 0.7s ease, transform 0.5s 0.7s ease;
         }
-        .hero-bio.visible { opacity: 1; transform: translateY(0); }
-
+        .hero-bio.vis { opacity: 1; transform: translateY(0); }
         .hero-quote {
-          border-left: 2px solid var(--accent);
-          padding-left: 1rem;
-          font-family: var(--serif);
-          font-style: italic;
-          font-size: 0.95rem;
-          color: var(--fg2);
-          line-height: 1.5;
+          border-left: 2px solid var(--accent); padding-left: 1rem;
+          font-family: var(--serif); font-style: italic; font-size: 0.95rem;
+          color: var(--fg2); line-height: 1.5;
           opacity: 0; transform: translateY(12px);
           transition: opacity 0.5s 0.9s ease, transform 0.5s 0.9s ease;
         }
-        .hero-quote.visible { opacity: 1; transform: translateY(0); }
-        .hero-quote cite { display: block; font-style: normal; font-family: var(--mono); font-size: 0.72rem; margin-top: 0.4rem; letter-spacing: 0.05em; color: var(--accent); }
-
-        /* TERMINAL */
+        .hero-quote.vis { opacity: 1; transform: translateY(0); }
+        .hero-quote cite {
+          display: block; font-style: normal; font-family: var(--mono);
+          font-size: 0.72rem; margin-top: 0.4rem; letter-spacing: 0.05em; color: var(--accent);
+        }
         .hero-right {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          padding: 4rem 3rem;
-          background: var(--bg2);
+          display: flex; flex-direction: column; justify-content: center;
+          align-items: center; padding: 4rem 3rem; background: var(--bg2);
         }
-
         .terminal-label {
-          font-family: var(--mono);
-          font-size: 0.7rem;
-          color: var(--fg2);
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          margin-bottom: 0.75rem;
-          align-self: flex-start;
-          opacity: 0;
-          transition: opacity 0.5s 1s ease;
+          font-family: var(--mono); font-size: 0.7rem; color: var(--fg2);
+          letter-spacing: 0.1em; text-transform: uppercase;
+          margin-bottom: 0.75rem; align-self: flex-start;
+          opacity: 0; transition: opacity 0.5s 1s ease;
         }
-        .terminal-label.visible { opacity: 1; }
-
+        .terminal-label.vis { opacity: 1; }
         .terminal {
-          width: 100%;
-          max-width: 520px;
-          background: #1c1a18;
-          border-radius: 8px;
-          overflow: hidden;
+          width: 100%; max-width: 520px; background: #1c1a18;
+          border-radius: 8px; overflow: hidden;
           box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.1);
           opacity: 0; transform: translateY(20px) scale(0.98);
           transition: opacity 0.6s 0.8s ease, transform 0.6s 0.8s ease;
+          cursor: text;
         }
-        .terminal.visible { opacity: 1; transform: translateY(0) scale(1); }
-
+        .terminal.vis { opacity: 1; transform: translateY(0) scale(1); }
         .term-header {
-          background: #2a2825;
-          padding: 0.65rem 1rem;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
+          background: #2a2825; padding: 0.65rem 1rem;
+          display: flex; align-items: center; gap: 0.5rem;
           border-bottom: 1px solid #333;
         }
-        .term-dot {
-          width: 10px; height: 10px; border-radius: 50%;
-        }
-        .term-dot.red { background: #ff5f57; }
-        .term-dot.yellow { background: #febc2e; }
-        .term-dot.green { background: #28c840; }
-        .term-title {
-          font-family: var(--mono);
-          font-size: 0.7rem;
-          color: #666;
-          margin-left: auto;
-          letter-spacing: 0.05em;
-        }
-
+        .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .term-dot.r { background: #ff5f57; }
+        .term-dot.y { background: #febc2e; }
+        .term-dot.g { background: #28c840; }
+        .term-title { font-family: var(--mono); font-size: 0.7rem; color: #666; margin-left: auto; }
         .term-body {
-          padding: 1.25rem;
-          min-height: 280px;
-          max-height: 320px;
-          overflow-y: auto;
-          font-family: var(--mono);
-          font-size: 0.78rem;
-          line-height: 1.8;
-          scrollbar-width: thin;
-          scrollbar-color: #333 transparent;
+          padding: 1.25rem; min-height: 280px; max-height: 320px;
+          overflow-y: auto; font-family: var(--mono); font-size: 0.78rem;
+          line-height: 1.8; scrollbar-width: thin; scrollbar-color: #333 transparent;
         }
-
-        .term-line-system { color: #8a8480; }
-        .term-line-input { color: #e8d5c4; }
-        .term-line-output { color: #a8c5a0; white-space: pre-line; }
-        .term-line-error { color: #e88080; }
-
+        .t-system { color: #8a8480; }
+        .t-input  { color: #e8d5c4; }
+        .t-output { color: #a8c5a0; white-space: pre-line; }
+        .t-error  { color: #e88080; }
         .term-input-row {
-          display: flex;
-          align-items: center;
-          padding: 0.5rem 1.25rem 1rem;
-          border-top: 1px solid #2a2825;
-          gap: 0.5rem;
+          display: flex; align-items: center;
+          padding: 0.5rem 1.25rem 1rem; border-top: 1px solid #2a2825; gap: 0.5rem;
         }
         .term-prompt { color: var(--accent); font-family: var(--mono); font-size: 0.78rem; }
         .term-input {
-          flex: 1;
-          background: transparent;
-          border: none;
-          outline: none;
-          color: #e8d5c4;
-          font-family: var(--mono);
-          font-size: 0.78rem;
+          flex: 1; background: transparent; border: none; outline: none;
+          color: #e8d5c4; font-family: var(--mono); font-size: 0.78rem;
           caret-color: var(--accent);
         }
-
-        /* SCROLL HINT */
         .scroll-hint {
-          position: absolute;
-          bottom: 2.5rem;
-          left: 50%;
-          transform: translateX(-50%);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.4rem;
-          font-family: var(--mono);
-          font-size: 0.65rem;
-          color: var(--fg2);
-          letter-spacing: 0.08em;
-          opacity: 0;
-          animation: fadeInUp 0.5s 1.5s forwards;
+          position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+          display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+          font-family: var(--mono); font-size: 0.65rem; color: var(--fg2);
+          letter-spacing: 0.08em; opacity: 0;
+          animation: fadeUp 0.5s 1.8s forwards;
         }
-        .scroll-arrow {
+        .scroll-line {
           width: 1px; height: 32px;
           background: linear-gradient(to bottom, transparent, var(--accent));
-          animation: scrollPulse 1.5s ease-in-out infinite;
+          animation: pulse 1.5s ease-in-out infinite;
         }
-        @keyframes scrollPulse { 0%,100%{opacity:0.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.1)} }
-        @keyframes fadeInUp { to { opacity: 1; } }
-
-        /* PLACEHOLDER SECTIONS */
-        .section-placeholder {
-          min-height: 60vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-top: 1px solid var(--border);
-          padding: 4rem 3rem;
-        }
-        .section-placeholder-inner {
-          text-align: center;
-          font-family: var(--mono);
-          font-size: 0.8rem;
-          color: var(--fg2);
-          letter-spacing: 0.05em;
-        }
-        .section-placeholder-inner span {
-          display: block;
-          font-family: var(--serif);
-          font-size: 2rem;
-          color: var(--fg);
-          margin-bottom: 0.5rem;
-        }
+        @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+        @keyframes fadeUp { to { opacity: 1; } }
 
         @media (max-width: 768px) {
           .hero { grid-template-columns: 1fr; }
           .hero-left { border-right: none; border-bottom: 1px solid var(--border); padding: 3rem 1.5rem; }
           .hero-right { padding: 2rem 1.5rem; }
-          .nav { padding: 1rem 1.5rem; }
-          .nav-socials { display: none; }
         }
       `}</style>
 
-      <div className="portfolio-root">
-        {/* NAV */}
-        <nav className={`nav ${mounted ? "visible" : ""}`}>
-          <a href="#" className="nav-logo">evan <span>liu</span></a>
-          <ul className="nav-links">
-            {navLinks.map((l) => (
-              <li key={l.label}><a href={l.href}>{l.label}</a></li>
-            ))}
-          </ul>
-          <div className="nav-socials">
-            <a href="https://github.com/eliu76" target="_blank" rel="noopener">github</a>
-            <a href="https://www.linkedin.com/in/evan-liu-767429250/" target="_blank" rel="noopener">linkedin</a>
-          </div>
-        </nav>
+      <section className="hero" id="home" style={{ position: "relative" }}>
+        <div className="hero-left">
+          <p className={`hero-eyebrow ${mounted ? "vis" : ""}`}>cs · umd '25 · software engineer</p>
+          <h1 className={`hero-name ${mounted ? "vis" : ""}`}>evan<br /><em>liu.</em></h1>
+          <p className={`hero-tagline ${mounted ? "vis" : ""}`}>
+            {displayed}<span className="cursor" />
+          </p>
+          <p className={`hero-bio ${mounted ? "vis" : ""}`}>
+            I'm a software engineer who builds for the web, digs into machine learning, and cares deeply about craft. I love finding the clean solution in a messy problem.
+          </p>
+          <blockquote className={`hero-quote ${mounted ? "vis" : ""}`}>
+            "every second counts."
+            <cite>— The Bear</cite>
+          </blockquote>
+        </div>
 
-        {/* HERO */}
-        <section className="hero" style={{ position: "relative" }}>
-          <div className="hero-left">
-            <p className={`hero-eyebrow ${mounted ? "visible" : ""}`}>cs · umd '25 · virginia</p>
-
-            <h1 className={`hero-name ${mounted ? "visible" : ""}`}>
-              evan<br /><em>liu.</em>
-            </h1>
-
-            <p className={`hero-tagline ${mounted ? "visible" : ""}`}>
-              {displayed}<span className="cursor" />
-            </p>
-
-            <p className={`hero-bio ${mounted ? "visible" : ""}`}>
-              I'm a software engineer who builds for the web, digs into machine learning, and cares deeply about craft. I love finding the clean solution in a messy problem.
-            </p>
-
-            <blockquote className={`hero-quote ${mounted ? "visible" : ""}`}>
-              "every second counts."
-              <cite>— The Bear</cite>
-            </blockquote>
-          </div>
-
-          <div className="hero-right">
-            <p className={`terminal-label ${mounted ? "visible" : ""}`}>// interactive terminal</p>
-            <div
-              className={`terminal ${mounted ? "visible" : ""}`}
-              onClick={() => inputRef.current?.focus()}
-            >
-              <div className="term-header">
-                <div className="term-dot red" />
-                <div className="term-dot yellow" />
-                <div className="term-dot green" />
-                <span className="term-title">evan@portfolio ~ </span>
-              </div>
-              <div className="term-body">
-                {termHistory.map((line, i) => (
-                  <div key={i} className={`term-line-${line.type}`}>
-                    {line.text}
-                  </div>
-                ))}
-                <div ref={termBottomRef} />
-              </div>
-              <div className="term-input-row">
-                <span className="term-prompt">$</span>
-                <input
-                  ref={inputRef}
-                  className="term-input"
-                  value={termInput}
-                  onChange={(e) => setTermInput(e.target.value)}
-                  onKeyDown={handleCommand}
-                  placeholder="type a command..."
-                  autoComplete="off"
-                  spellCheck={false}
-                />
-              </div>
+        <div className="hero-right">
+          <p className={`terminal-label ${mounted ? "vis" : ""}`}>// interactive terminal</p>
+          <div className={`terminal ${mounted ? "vis" : ""}`} onClick={() => inputRef.current?.focus()}>
+            <div className="term-header">
+              <div className="term-dot r" />
+              <div className="term-dot y" />
+              <div className="term-dot g" />
+              <span className="term-title">evan@portfolio ~</span>
+            </div>
+            <div className="term-body">
+              {termHistory.map((line, i) => (
+                <div key={i} className={`t-${line.type}`}>{line.text}</div>
+              ))}
+              <div ref={termBottomRef} />
+            </div>
+            <div className="term-input-row">
+              <span className="term-prompt">$</span>
+              <input
+                ref={inputRef}
+                className="term-input"
+                value={termInput}
+                onChange={(e) => setTermInput(e.target.value)}
+                onKeyDown={handleCommand}
+                placeholder="type a command..."
+                autoComplete="off"
+                spellCheck={false}
+              />
             </div>
           </div>
+        </div>
 
-          <div className="scroll-hint">
-            scroll
-            <div className="scroll-arrow" />
-          </div>
-        </section>
-
-        {/* PLACEHOLDER SECTIONS */}
-        <section className="section-placeholder" id="experience">
-          <div className="section-placeholder-inner">
-            <span>experience</span>
-            coming next →
-          </div>
-        </section>
-        <section className="section-placeholder" id="projects">
-          <div className="section-placeholder-inner">
-            <span>projects</span>
-            coming next →
-          </div>
-        </section>
-        <section className="section-placeholder" id="contact">
-          <div className="section-placeholder-inner">
-            <span>contact</span>
-            coming next →
-          </div>
-        </section>
-      </div>
+        <div className="scroll-hint">
+          scroll
+          <div className="scroll-line" />
+        </div>
+      </section>
     </>
   );
 }
