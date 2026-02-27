@@ -57,6 +57,18 @@ const EXPERIENCE = [
       "Applied AI-based molecular dynamics simulations to investigate protein flexibility, informing drug design and efficacy optimization.",
     ],
   },
+  {
+    company: "University of Maryland",
+    role: "Resident Assistant",
+    period: "May 2023 – Dec 2025",
+    location: "College Park, MD",
+    type: "part-time",
+    tags: ["teamwork", "leadership", "organization"],
+    bullets: [
+      "Student leader in charge of 40-50 undergraduate students.",
+      "Managed the floor, established relationships, held events, peformed duty-related tasks.",
+    ],
+  },
 ];
 
 const EDUCATION = {
