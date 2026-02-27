@@ -60,16 +60,6 @@ evan-portfolio/
 
 ---
 
-## adding your resume PDF
-
-1. Export your resume as a PDF
-2. Rename it `resume.pdf`
-3. Drop it into the `/public` folder
-
-The "download résumé" button in the Experience section links to `/resume.pdf` automatically.
-
----
-
 ## deploying to vercel (recommended)
 
 Vercel is the easiest way to deploy — it's free for personal projects and deploys directly from GitHub.
