@@ -73,7 +73,8 @@ export default function Hero() {
   }, [displayed, isDeleting, taglineIndex]);
 
   useEffect(() => {
-    termBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    const body = termBottomRef.current?.parentElement;
+    if (body) body.scrollTop = body.scrollHeight;
   }, [termHistory]);
 
   const handleCommand = (e) => {
