@@ -28,11 +28,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `history.scrollRestoration = 'manual'; window.scrollTo(0, 0);`,
-          }}
-        />
+        <script dangerouslySetInnerHTML={{ __html: `history.scrollRestoration = 'manual'; window.scrollTo(0, 0);` }} />
         {children}
       </body>
     </html>
