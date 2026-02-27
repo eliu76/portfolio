@@ -52,7 +52,7 @@ const EXPERIENCE = [
     period: "May 2023 – Dec 2025",
     location: "College Park, MD",
     type: "part-time",
-    tags: ["teamwork", "leadership", "organization"],
+    tags: ["Teamwork", "Leadership", "Organization"],
     bullets: [
       "Student leader in charge of 40-50 undergraduate students.",
       "Managed the floor, established relationships, held events, peformed duty-related tasks.",
@@ -61,11 +61,11 @@ const EXPERIENCE = [
   {
     company: "Gemstone Honors College",
     role: "Research Lead",
-    team: "AI-Driven Nanoparticle Drug Delivery",
+    team: "Team SAINT",
     period: "Apr 2023 – Present",
     location: "College Park, MD",
     type: "research",
-    tags: ["AI", "ML", "Python", "Research"],
+    tags: ["Nanoparticle", "ML", "Vesicle", "Research"],
     bullets: [
       "Lead research on an AI-driven nanoparticle drug-conjugate system with microfluidic technologies.",
       "Investigated natural vesicle formation as an alternative to antibody-drug conjugates, improving targeting efficiency.",

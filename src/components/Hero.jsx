@@ -164,7 +164,7 @@ export default function Hero() {
         .terminal-label {
           font-family: var(--mono); font-size: 0.7rem; color: var(--fg2);
           letter-spacing: 0.1em; text-transform: uppercase;
-          margin-bottom: 0.75rem; align-self: flex-start;
+          margin-bottom: 0.75rem;
           opacity: 0; transition: opacity 0.5s 1s ease;
         }
         .terminal-label.vis { opacity: 1; }
