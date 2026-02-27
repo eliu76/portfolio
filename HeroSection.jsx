@@ -6,18 +6,19 @@ const COMMANDS = {
   skills     → what evan builds with
   education  → where evan studied
   quote      → evan's favorite quote
+  movies     → evan's favorite movies
   contact    → how to reach evan
   clear      → clear terminal`,
 
   about: `evan liu — software engineer.
-cs @ university of maryland, class of '25.
+cs @ university of maryland, class of fall '25.
 builds for the web, digs into ML, and finds the elegant solution.
 creative · hardworking · adaptive.`,
 
   skills: `languages   → python, javascript, typescript, java, c
 web         → react, next.js, node.js, tailwind
-ml / data   → pytorch, scikit-learn, pandas, numpy
-tools       → git, docker, linux, figma`,
+ml / data   → pytorch, scikit-learn, pandas, numpy, mongodb
+tools       → git, docker, linux, kubernetes`,
 
   education: `university of maryland, college park
 b.s. computer science — 2025
@@ -29,6 +30,11 @@ go terps 🐢`,
   contact: `github    → github.com/eliu76
 linkedin  → linkedin.com/in/evan-liu-767429250
 email     → reach out via linkedin`,
+
+  movies: `interstellar - christopher nolan
+  parasite - bong joon ho
+  the dark knight - christopher nolan
+  dune part two - denis villanueve`,
 
   clear: "__CLEAR__",
 };
