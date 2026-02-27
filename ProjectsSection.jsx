@@ -158,7 +158,7 @@ export default function ProjectsSection() {
           --bg2: #eceae5;
           --fg: #1a1814;
           --fg2: #5a5650;
-          --accent: #c8501a;
+          --accent: #12c1d8ff;
           --border: #d8d4ce;
           --mono: 'DM Mono', monospace;
           --serif: 'Playfair Display', serif;
