@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
+
+const MapEmbed = dynamic(() => import("./MapEmbed"), { ssr: false });
 
 const COMMANDS = {
   help: `available commands:
@@ -96,6 +99,8 @@ export default function Hero() {
     setTermHistory(newHistory);
   };
 
+  const v = mounted ? "vis" : "";
+
   return (
     <>
       <style>{`
@@ -161,10 +166,15 @@ export default function Hero() {
           display: flex; flex-direction: column; justify-content: center;
           align-items: center; padding: 4rem 3rem; background: var(--bg2);
         }
+        .terminal-wrapper {
+          display: flex; flex-direction: column;
+          width: 100%; max-width: 520px;
+        }
         .terminal-label {
           font-family: var(--mono); font-size: 0.7rem; color: var(--fg2);
           letter-spacing: 0.1em; text-transform: uppercase;
-          margin-bottom: 0.75rem;
+          margin-top: 1.25rem;
+          margin-bottom: 1rem;
           opacity: 0; transition: opacity 0.5s 1s ease;
         }
         .terminal-label.vis { opacity: 1; }
@@ -236,42 +246,63 @@ export default function Hero() {
             {displayed}<span className="cursor" />
           </p>
           <p className={`hero-bio ${mounted ? "vis" : ""}`}>
-            I'm a software engineer who builds for the web, digs into machine learning, and cares deeply about craft. I love finding the clean solution in a messy problem.
+            I'm a software engineer digs into machine learning, builds creative projects, and cares deeply about craft. I love finding the clean solution to a messy problem.
           </p>
           <blockquote className={`hero-quote ${mounted ? "vis" : ""}`}>
-            "every second counts."
+            "Every second counts."
             <cite>— The Bear</cite>
+          </blockquote>
+          <blockquote className={`hero-quote ${mounted ? "vis" : ""}`}>
+            "Stay Hungry. Stay Foolish."
+            <cite>— Steve Jobs</cite>
           </blockquote>
         </div>
 
         <div className="hero-right">
-          <p className={`terminal-label ${mounted ? "vis" : ""}`}>// interactive terminal</p>
-          <div className={`terminal ${mounted ? "vis" : ""}`} onClick={() => inputRef.current?.focus()}>
-            <div className="term-header">
-              <div className="term-dot r" />
-              <div className="term-dot y" />
-              <div className="term-dot g" />
-              <span className="term-title">evan@portfolio ~</span>
+          <div className="terminal-wrapper">
+
+            {/* Map */}
+            <div className={`map-block ${v}`}>
+              <p className="map-label">// location</p>
+              <div className="map-container">
+                <MapEmbed />
+                <div className="map-footer">
+                  <span className="map-pin">📍</span>
+                  <span className="map-city">San Francisco, California</span>
+                </div>
+              </div>
             </div>
-            <div className="term-body">
-              {termHistory.map((line, i) => (
-                <div key={i} className={`t-${line.type}`}>{line.text}</div>
-              ))}
-              <div ref={termBottomRef} />
+
+            {/* Terminal */}
+            <p className={`terminal-label ${v}`}>// interactive terminal</p>
+            <div className={`terminal ${v}`} onClick={() => inputRef.current?.focus()}>
+              <div className="term-header">
+                <div className="term-dot r" />
+                <div className="term-dot y" />
+                <div className="term-dot g" />
+                <span className="term-title">evan@portfolio ~</span>
+              </div>
+              <div className="term-body">
+                {termHistory.map((line, i) => (
+                  <div key={i} className={`t-${line.type}`}>{line.text}</div>
+                ))}
+                <div ref={termBottomRef} />
+              </div>
+              <div className="term-input-row">
+                <span className="term-prompt">$</span>
+                <input
+                  ref={inputRef}
+                  className="term-input"
+                  value={termInput}
+                  onChange={(e) => setTermInput(e.target.value)}
+                  onKeyDown={handleCommand}
+                  placeholder="type a command..."
+                  autoComplete="off"
+                  spellCheck={false}
+                />
+              </div>
             </div>
-            <div className="term-input-row">
-              <span className="term-prompt">$</span>
-              <input
-                ref={inputRef}
-                className="term-input"
-                value={termInput}
-                onChange={(e) => setTermInput(e.target.value)}
-                onKeyDown={handleCommand}
-                placeholder="type a command..."
-                autoComplete="off"
-                spellCheck={false}
-              />
-            </div>
+
           </div>
         </div>
 
