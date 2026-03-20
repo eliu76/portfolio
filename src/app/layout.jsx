@@ -3,7 +3,7 @@ import "./globals.css";
 export const metadata = {
   title: "Evan Liu — Software Engineer",
   description:
-    "Software engineer specializing in web development and machine learning. CS graduate from University of Maryland, 2025.",
+    "Software engineer specializing in fullstack and web development and machine learning. CS graduate from University of Maryland, 2025. Eager to learn and grow. Always open to connecting.",
   openGraph: {
     title: "Evan Liu — Software Engineer",
     description:
