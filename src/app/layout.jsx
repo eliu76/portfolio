@@ -18,6 +18,7 @@ export const metadata = {
     title: "Evan Liu — Software Engineer",
     description:
       "Software engineer specializing in web development and machine learning.",
+    images: ["https://eliu76.github.io/portfolio/og-image.png"]
   },
   icons: {
     icon: "/favicon.ico",
