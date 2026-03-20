@@ -82,10 +82,8 @@ body {
   margin-bottom: 0.75rem;
 }
 
-.map-container {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
+.map-container .leaflet-container {
+  filter: saturate(0.5) brightness(1.05);
 }
 
 .map-iframe {

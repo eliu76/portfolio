@@ -33,8 +33,8 @@ export default function MapEmbed() {
       });
 
       L.tileLayer(
-        "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png",
-        { maxZoom: 20 }
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        { maxZoom: 19 }
       ).addTo(map);
 
       const icon = L.divIcon({
